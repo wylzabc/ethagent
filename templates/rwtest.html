@@ -1,0 +1,203 @@
+{{ template "header" }}
+
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>写数据</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <!--form method="post" action="/inhospitaldata/putdata" class="form-horizontal"-->
+                    <form class="form-horizontal">
+                        <div class="form-group"><label class="col-sm-2 control-label" >社保编号</label>
+                            <div class="col-sm-6"><input type="text" class="form-control" id="personid"></div>
+                        </div>
+                        <div class="form-group"><label class="col-sm-2 control-label">采集时间</label>
+                            <div class="col-sm-6"><input type="text" class="form-control" id="timestamp"></div>
+                        </div>
+                        <div class="form-group"><label class="col-sm-2 control-label">医院代码</label>
+                            <div class="col-sm-6"><input type="text" class="form-control" id="hospitalid"></div>
+                        </div>
+                        <div class="form-group"><label class="col-sm-2 control-label">设备编号</label>
+                            <div class="col-sm-6"><input type="text" class="form-control" id="devid"></div>
+                        </div>
+                        <div class="form-group"><label class="col-sm-2 control-label">静脉数据</label>
+                            <div class="col-sm-6"><input type="text" class="form-control" id="personveindata"></div>
+                        </div>
+                        <div class="form-group"><label class="col-sm-2 control-label">图片信息</label>
+                            <div class="col-sm-6"><input type="text" class="form-control" id="personpicdata"></div>
+                        </div>
+                        <div class="form-group"><label class="col-sm-2 control-label">附加信息</label>
+                            <div class="col-sm-6"><input type="text" class="form-control" id="additionalinfo"></div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-2">
+                                <button class="btn btn-primary" id="btn_submit">保存</button>
+                                <button class="btn btn-white" type="reset">重新填写</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>读数据</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-lg-4">
+                        <form class="form-inline">
+                            <div class="form-group">
+                                <label class="sr-only">社保编号</label>
+                                <input type="text" placeholder="社保编号" id="query_personid" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only">采集时间</label>
+                                <input type="text" placeholder="采集时间" id="query_timestamp" class="form-control">
+                            </div>
+                        </form>
+                        </div>
+                        <div class="col-lg-8">
+                            <button class="btn btn-white" id="btn_query">查询</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div id="json"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Mainly scripts -->
+<script src="/assets/js/jquery-3.1.1.min.js"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
+<script src="/assets/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="/assets/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+<!-- Flot -->
+<script src="/assets/js/plugins/flot/jquery.flot.js"></script>
+<script src="/assets/js/plugins/flot/jquery.flot.tooltip.min.js"></script>
+<script src="/assets/js/plugins/flot/jquery.flot.spline.js"></script>
+<script src="/assets/js/plugins/flot/jquery.flot.resize.js"></script>
+<script src="/assets/js/plugins/flot/jquery.flot.pie.js"></script>
+
+<!-- Peity -->
+<script src="/assets/js/plugins/peity/jquery.peity.min.js"></script>
+<script src="/assets/js/demo/peity-demo.js"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="/assets/js/inspinia.js"></script>
+<script src="/assets/js/plugins/pace/pace.min.js"></script>
+
+<!-- jQuery UI -->
+<script src="/assets/js/plugins/jquery-ui/jquery-ui.min.js"></script>
+
+<!-- GITTER -->
+<script src="/assets/js/plugins/gritter/jquery.gritter.min.js"></script>
+
+<!-- Sparkline -->
+<script src="/assets/js/plugins/sparkline/jquery.sparkline.min.js"></script>
+
+<!-- Sparkline demo data  -->
+<script src="/assets/js/demo/sparkline-demo.js"></script>
+
+<!-- ChartJS-->
+<script src="/assets/js/plugins/chartJs/Chart.min.js"></script>
+
+<!-- Toastr -->
+<!--
+<script src="/assets/js/plugins/toastr/toastr.min.js"></script>
+-->
+
+<script type="text/javascript" src="/assets/js/jquery.jsonview.js"></script>
+
+<script>
+function querydata(blocknum) {
+  $.get("/ledger/queryblock/"+blocknum,function(data,status){
+    $('#json').JSONView(data, { collapsed: true });
+  });
+}
+
+$(document).ready(function() {
+    $("#sidebar-menu-rwtest").addClass("active")
+
+    $("#btn_query").click( function() {
+        personid = $('#query_personid').val();
+        timestamp = $('#query_timestamp').val();
+        //console.log(personid)
+        //console.log(timestamp)
+        if (personid.length <= 0) return false;
+        if (timestamp.length <= 0) {
+            $.ajax({
+                type: 'GET',
+                url: '/inhospitaldata/' + personid,
+                success: function(data,status){
+                    $('#json').JSONView(data, { collapsed: true });
+                }
+            });
+            /*
+            $.get("/inhospitaldata/" + personid, function(data,status) {
+                $('#json').JSONView(data, { collapsed: true });
+            });
+            */
+        }
+        else {
+            $.get("/inhospitaldata/" + personid + "/" + timestamp, function(data,status) {
+                $('#json').JSONView(data, { collapsed: true });
+        return false;
+            });
+        return false;
+        }
+        return false;
+    });
+
+    $("#btn_submit").click(function(){
+        personid = $('#personid').val();
+        timestamp = $('#timestamp').val();
+        hospitalid = $('#hospitalid').val();
+        devid = $('#devid').val();
+        personveindata = $('#personveindata').val();
+        personpicdata = $('#personpicdata').val();
+        additionalinfo = $('#additionalinfo').val();
+        $.ajax({
+            type: 'POST',
+            url: '/inhospitaldata/putdata',
+            data: {
+                personid : personid,
+                timestamp : timestamp,
+                hospitalid : hospitalid,
+                devid : devid,
+                personveindata : personveindata,
+                personpicdata : personpicdata,
+                additionalinfo : additionalinfo
+            },
+            success: function(data,status){
+                alert(data);
+            }
+        });
+        return false;
+    });
+
+})
+
+</script>
+
+{{ template "footer" }}
+

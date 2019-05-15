@@ -1,0 +1,11 @@
+{
+    "log": {
+        "level": "debug",
+        "filename": "/root/go/src/wylzabc/ethagent/log/ethagent.log",
+        "maxsize": 100000,
+        "maxrolls": 5,
+        "errfilename": "/root/go/src/wylzabc/ethagent/log/ethagent_err.log"
+    },
+    "a": "b",
+    "x": "y"
+}

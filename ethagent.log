@@ -1,0 +1,32 @@
+ethclient init ok
+[GIN-debug] [WARNING] Now Gin requires Go 1.6 or later and Go 1.7 will be required soon.
+
+[GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.
+
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /assets/*filepath         --> wylzabc/ethagent/vendor/github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (3 handlers)
+[GIN-debug] HEAD   /assets/*filepath         --> wylzabc/ethagent/vendor/github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (3 handlers)
+[GIN-debug] Loaded HTML Templates (8): 
+	- header.html
+	- header
+	- rwtest.html
+	- 
+	- dashboard.html
+	- events.html
+	- footer.html
+	- footer
+
+[GIN-debug] GET    /test                     --> wylzabc/ethagent/httpserver.getTest (3 handlers)
+[GIN-debug] GET    /testput                  --> wylzabc/ethagent/httpserver.getTestPut (3 handlers)
+[GIN-debug] GET    /testget                  --> wylzabc/ethagent/httpserver.getTestGet (3 handlers)
+[GIN-debug] GET    /                         --> wylzabc/ethagent/httpserver.InitRouter.func1 (3 handlers)
+[GIN-debug] GET    /rwtest.html              --> wylzabc/ethagent/httpserver.InitRouter.func2 (3 handlers)
+[GIN-debug] POST   /inhospitaldata/putdata   --> wylzabc/ethagent/httpserver.postInHostpitalDataPutData (3 handlers)
+[GIN-debug] GET    /inhospitaldata/:personid --> wylzabc/ethagent/httpserver.getInHostpitalDataGetDataByPersonid (3 handlers)
+[GIN-debug] GET    /inhospitaldata/:personid/:date --> wylzabc/ethagent/httpserver.getInHostpitalDataGetDataByPersonidAndDate (3 handlers)
+[GIN-debug] Listening and serving HTTP on :8888
+[GIN] 2018/10/23 - 23:09:18 | 200 |    1.551541ms |    192.168.19.1 | GET      /
+[GIN] 2018/10/23 - 23:09:18 | 404 |         745ns |    192.168.19.1 | GET      /favicon.ico
